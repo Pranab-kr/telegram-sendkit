@@ -20,14 +20,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@pranabkr/sendkit-core": "workspace:*",
-    "commander": "^15.0.0",
-    "zod": "4.4.3"
-  },
   "scripts": {
     "build": "tsdown",
     "pack:dry": "bun run build && bun pm pack --dry-run",
     "prepublishOnly": "bun run build"
+  },
+  "dependencies": {
+    "@pranabkr/sendkit-core": "workspace:*",
+    "commander": "^15.0.0",
+    "zod": "4.4.3"
   }
 }

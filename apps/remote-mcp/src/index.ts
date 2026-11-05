@@ -1,3 +1,4 @@
+import "./env.ts";
 import { Hono, type Context } from "hono";
 import { telegramMessageInputSchema, sendTelegramMessage } from "@pranabkr/sendkit-core";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

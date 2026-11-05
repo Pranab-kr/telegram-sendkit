@@ -28,7 +28,7 @@ function getTelegramBotToken() {
       "Missing config file. Please run `sendkit init` to set the Telegram bot token.",
     );
   }
-  
+
   const config = cliConfigSchema.parse(JSON.parse(readFileSync(configPath, "utf-8")));
   const token = config.telegramBotToken;
 

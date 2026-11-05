@@ -1,7 +1,7 @@
 {
   "name": "@pranabkr/sendkit-mcp",
   "version": "0.0.1",
-  "bin":{
+  "bin": {
     "sendkit-mcp": "./dist/index.js"
   },
   "files": [
