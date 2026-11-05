@@ -10,7 +10,7 @@
     "@clerk/backend": "^3.26.6",
     "@clerk/mcp-tools": "^0.8.0",
     "@modelcontextprotocol/sdk": "^1.32.2",
-    "@pranab-kr/sendkit-core": "workspace:*",
+    "@pranabkr/sendkit-core": "workspace:*",
     "hono": "^4.13.16"
   }
 }

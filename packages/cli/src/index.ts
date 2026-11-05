@@ -1,7 +1,9 @@
+#!/usr/bin/env node
+
 import { Command } from "commander";
 import { homedir } from "node:os";
 import { join, dirname } from "node:path";
-import { sendTelegramMessage } from "@pranab-kr/sendkit-core";
+import { sendTelegramMessage } from "@pranabkr/sendkit-core";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { z } from "zod";
 
@@ -26,6 +28,7 @@ function getTelegramBotToken() {
       "Missing config file. Please run `sendkit init` to set the Telegram bot token.",
     );
   }
+  
   const config = cliConfigSchema.parse(JSON.parse(readFileSync(configPath, "utf-8")));
   const token = config.telegramBotToken;
 

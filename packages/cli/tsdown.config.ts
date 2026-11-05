@@ -14,6 +14,6 @@ export default defineConfig({
     dts: ".d.ts",
   }),
   deps: {
-    neverBundle: ["zod", "commander", "@pranab-kr/sendkit-core"],
+    neverBundle: ["zod", "commander", "@pranabkr/sendkit-core"],
   },
 });

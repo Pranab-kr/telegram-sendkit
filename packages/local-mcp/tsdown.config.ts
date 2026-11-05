@@ -14,6 +14,6 @@ export default defineConfig({
     dts: ".d.ts",
   }),
   deps: {
-    neverBundle: ["zod", "@modelcontextprotocol/sdk", "@pranab-kr/sendkit-core"],
+    neverBundle: ["zod", "@modelcontextprotocol/sdk", "@pranabkr/sendkit-core"],
   },
 });

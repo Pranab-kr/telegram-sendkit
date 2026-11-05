@@ -15,9 +15,12 @@
     "lint": "oxlint . --deny-warnings",
     "lint:fix": "oxlint . --fix",
     "typecheck": "tsc --noEmit",
-    "build:core": "bun run --filter @pranab-kr/sendkit-core build",
-     "build:cli": "bun run --filter @pranab-kr/sendkit build",
-    "build:local-mcp": "bun run --filter @pranab-kr/sendkit-mcp build"
+    "build:core": "bun run --filter @pranabkr/sendkit-core build",
+    "build:cli": "bun run --filter @pranabkr/sendkit build",
+    "build:local-mcp": "bun run --filter @pranabkr/sendkit-mcp build",
+    "release:pack:core": "bun run --filter @pranabkr/sendkit-core pack:dry",
+    "release:pack:cli": "bun run --filter @pranabkr/sendkit pack:dry",
+    "release:pack:local-mcp": "bun run --filter @pranabkr/sendkit-mcp pack:dry"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
