@@ -14,7 +14,10 @@
     "format:check": "oxfmt --check .",
     "lint": "oxlint . --deny-warnings",
     "lint:fix": "oxlint . --fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:core": "bun run --filter @pranab-kr/sendkit-core build",
+     "build:cli": "bun run --filter @pranab-kr/sendkit build",
+    "build:local-mcp": "bun run --filter @pranab-kr/sendkit-mcp build"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

@@ -1,5 +1,5 @@
 import { Hono, type Context } from "hono";
-import { telegramMessageInputSchema, sendTelegramMessage } from "sendkit-core";
+import { telegramMessageInputSchema, sendTelegramMessage } from "@pranab-kr/sendkit-core";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { createClerkClient } from "@clerk/backend";

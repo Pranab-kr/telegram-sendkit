@@ -5,7 +5,7 @@ import {
   telegramMessageOutputSchema,
   telegramSendMessageRequestSchema,
   telegramSendMessageResponseSchema,
-} from "./schemas.ts";
+} from "./schemas";
 
 export async function sendTelegramMessage(
   input: TelegramMessageOptions,

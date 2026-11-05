@@ -1,2 +1,2 @@
-export * from "./operations.ts";
-export * from "./schemas.ts";
+export * from "./operations";
+export * from "./schemas";
