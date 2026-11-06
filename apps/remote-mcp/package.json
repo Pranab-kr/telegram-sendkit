@@ -12,8 +12,8 @@
   "dependencies": {
     "@clerk/backend": "^3.26.6",
     "@clerk/mcp-tools": "^0.8.0",
-    "@modelcontextprotocol/sdk": "^1.32.2",
-    "@pranabkr/sendkit-core": "0.0.0",
+    "@modelcontextprotocol/server": "^2.4.0",
+    "@pranabkr/sendkit-core": "workspace:*",
     "hono": "^4.13.16"
   }
 }

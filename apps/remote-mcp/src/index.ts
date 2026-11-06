@@ -1,8 +1,7 @@
 import "./env";
 import { Hono, type Context } from "hono";
 import { telegramMessageInputSchema, sendTelegramMessage } from "@pranabkr/sendkit-core";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
+import { createMcpHandler, McpServer } from "@modelcontextprotocol/server";
 import { createClerkClient } from "@clerk/backend";
 import { generateClerkProtectedResourceMetadata } from "@clerk/mcp-tools/server";
 
@@ -27,7 +26,7 @@ function createServer(botToken: string) {
     {
       title: "Telegram",
       description: "Send messages to Telegram",
-      inputSchema: telegramMessageInputSchema.shape,
+      inputSchema: telegramMessageInputSchema,
     },
     async (input) => {
       const result = await sendTelegramMessage({
@@ -49,6 +48,21 @@ function createServer(botToken: string) {
 
   return server;
 }
+
+// the handler builds a server per request, so the bot token has to be read back
+// from the request URL that carries it (`/:botToken/mcp`)
+function botTokenFromRequest(request: Request | undefined) {
+  const botToken = request ? new URL(request.url).pathname.split("/")[1] : undefined;
+
+  if (!botToken) throw new Error("Missing Telegram bot token in MCP endpoint URL");
+
+  return botToken;
+}
+
+const mcpHandler = createMcpHandler(
+  ({ requestInfo }) => createServer(botTokenFromRequest(requestInfo)),
+  { responseMode: "json" },
+);
 
 const app = new Hono();
 
@@ -74,18 +88,11 @@ app.get("/.well-known/oauth-protected-resource/:botToken/mcp", (c) => {
   );
 });
 
-app.post("/:botToken/mcp", async (c) => {
-  const botToken = c.req.param().botToken;
+app.all("/:botToken/mcp", async (c) => {
+  const botToken = c.req.param("botToken");
 
   const authHeader = c.req.header("authorization");
   if (!authHeader?.startsWith("Bearer ")) return unauthorizedMcpResponse(c, botToken);
-
-  const server = createServer(botToken);
-
-  const transport = new WebStandardStreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
-    enableJsonResponse: true,
-  });
 
   try {
     const requestState = await clerkClient.authenticateRequest(c.req.raw, {
@@ -97,13 +104,7 @@ app.post("/:botToken/mcp", async (c) => {
     return unauthorizedMcpResponse(c, botToken);
   }
 
-  await server.connect(transport);
-
-  try {
-    return await transport.handleRequest(c.req.raw);
-  } finally {
-    await transport.close();
-  }
+  return mcpHandler.fetch(c.req.raw);
 });
 
 app.notFound((c) => {

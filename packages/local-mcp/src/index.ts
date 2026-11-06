@@ -1,13 +1,8 @@
 #!/usr/bin/env node
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer } from "@modelcontextprotocol/server";
+import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import { sendTelegramMessage, telegramMessageInputSchema } from "@pranabkr/sendkit-core";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-
-const server = new McpServer({
-  name: "sendkit-local",
-  version: "0.0.0",
-});
 
 function getTelegramBOTToken() {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -17,30 +12,36 @@ function getTelegramBOTToken() {
   return token;
 }
 
-server.registerTool(
-  "telegram",
-  {
-    title: "Telegram",
-    description: "Send messages to Telegram",
-    inputSchema: telegramMessageInputSchema.shape,
-  },
-  async (input) => {
-    const result = await sendTelegramMessage({
-      ...input,
-      botToken: getTelegramBOTToken(),
-    });
+serveStdio(() => {
+  const server = new McpServer({
+    name: "sendkit-local",
+    version: "0.0.0",
+  });
 
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Telegram message sent to chat ${result.chatId} with message ID ${result.messageId}`,
-        },
-      ],
-      structuredContent: result,
-    };
-  },
-);
+  server.registerTool(
+    "telegram",
+    {
+      title: "Telegram",
+      description: "Send messages to Telegram",
+      inputSchema: telegramMessageInputSchema,
+    },
+    async (input) => {
+      const result = await sendTelegramMessage({
+        ...input,
+        botToken: getTelegramBOTToken(),
+      });
 
-const transport = new StdioServerTransport();
-await server.connect(transport);
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Telegram message sent to chat ${result.chatId} with message ID ${result.messageId}`,
+          },
+        ],
+        structuredContent: result,
+      };
+    },
+  );
+
+  return server;
+});
